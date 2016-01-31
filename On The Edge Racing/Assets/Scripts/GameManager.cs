@@ -77,17 +77,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		Invoke("StartGame", 2f);
-		Invoke ("ResetPosition", 1f);
 	}
 
-	void ResetPosition(){
-		
-		if (onGameStateChanged != null) {
-
-			onGameStateChanged (GameState.NOT_STARTED);
-
-		}
-
-	}
 
 }
