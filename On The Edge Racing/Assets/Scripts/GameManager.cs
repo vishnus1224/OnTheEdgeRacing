@@ -8,9 +8,6 @@ public class GameManager : MonoBehaviour {
 		NOT_STARTED,RUNNING, PAUSED, GAME_OVER
 	}
 
-	//current state of the game.
-	private GameState currentState = GameState.NOT_STARTED;
-
 	public delegate void GameStateChanged (GameState gameState);
 
 	public static event GameStateChanged onGameStateChanged;
@@ -25,7 +22,13 @@ public class GameManager : MonoBehaviour {
 	void Update () {
 	
 		if (Input.GetKeyDown (KeyCode.Return)) {
+
 			StartGame ();
+		}
+
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+		
+			PauseGame ();
 		}
 	}
 
@@ -33,12 +36,21 @@ public class GameManager : MonoBehaviour {
 
 		Debug.Log ("Started");
 
-		//change the current state of the game to running.
-		currentState = GameState.RUNNING;
-
 		//send an event that the game has started.
 		if (onGameStateChanged != null) {
-			onGameStateChanged (currentState);
+			
+			onGameStateChanged (GameState.RUNNING);
+		}
+
+	}
+
+	void PauseGame(){
+	
+		Debug.Log ("Paused");
+
+		if (onGameStateChanged != null) {
+		
+			onGameStateChanged (GameState.PAUSED);
 		}
 
 	}
