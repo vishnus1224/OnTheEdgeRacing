@@ -16,6 +16,8 @@ public class PlayerInputController : MonoBehaviour {
 
 	public static event PlayerStateChanged OnPlayerStateChanged;
 
+	private const float MIN_ACCELERATION = 0.1f;
+
 	void OnEnable(){
 
 		GameManager.onGameStateChanged += GameStateChanged;
@@ -87,7 +89,7 @@ public class PlayerInputController : MonoBehaviour {
 
 	void ProcessInput(){
 
-
+		#if UNITY_EDITOR
 		if(Input.GetKeyDown(KeyCode.LeftArrow)){
 
 			if (OnPlayerStateChanged != null) {
@@ -104,6 +106,35 @@ public class PlayerInputController : MonoBehaviour {
 			}
 
 		}
-	
+
+		#endif
+
+		//if running on android process accelerometer input
+		#if UNITY_ANDROID
+
+		//get the value of acceleration on the x axis.
+		float xAcceleration = Input.acceleration.x;
+
+		if(xAcceleration < 0 && Mathf.Abs(xAcceleration) > MIN_ACCELERATION && OnPlayerStateChanged != null){
+
+
+			Debug.Log(xAcceleration);
+			OnPlayerStateChanged(PlayerState.MOVE_LEFT);
+
+		}else if(xAcceleration > 0 && Mathf.Abs(xAcceleration) > MIN_ACCELERATION && OnPlayerStateChanged != null){
+			Debug.Log(xAcceleration);
+
+			OnPlayerStateChanged(PlayerState.MOVE_RIGHT);
+		}else {
+
+			if(OnPlayerStateChanged != null){
+
+				OnPlayerStateChanged(PlayerState.IDLE);
+
+			}
+
+		}
+
+		#endif
 	}
 }
