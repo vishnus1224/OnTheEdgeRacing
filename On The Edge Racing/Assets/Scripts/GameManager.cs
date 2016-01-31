@@ -5,12 +5,23 @@ public class GameManager : MonoBehaviour {
 
 	//represents the various states that the game can be in.
 	public enum GameState{
-		NOT_STARTED,RUNNING, PAUSED, GAME_OVER
+		NOT_STARTED, RUNNING, PAUSED, GAME_OVER
 	}
 
 	public delegate void GameStateChanged (GameState gameState);
 
 	public static event GameStateChanged onGameStateChanged;
+
+	void OnEnable(){
+
+		//listen to player collision event.
+		PlayerCollisionDetector.OnPlayerCollided += OnPlayerCrash;
+	}
+
+	void OnDisable(){
+
+		PlayerCollisionDetector.OnPlayerCollided -= OnPlayerCrash;
+	}
 
 
 	// Use this for initialization
@@ -38,8 +49,6 @@ public class GameManager : MonoBehaviour {
 
 	void StartGame(){
 
-		Debug.Log ("Started");
-
 		//send an event that the game has started.
 		if (onGameStateChanged != null) {
 			
@@ -49,8 +58,6 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void PauseGame(){
-	
-		Debug.Log ("Paused");
 
 		if (onGameStateChanged != null) {
 		
@@ -58,4 +65,29 @@ public class GameManager : MonoBehaviour {
 		}
 
 	}
+
+
+	void OnPlayerCrash(){
+
+		//signal to the listeners that player has crashed and the game has ended.
+		if (onGameStateChanged != null) {
+			
+			onGameStateChanged (GameState.GAME_OVER);
+
+		}
+
+		Invoke("StartGame", 2f);
+		Invoke ("ResetPosition", 1f);
+	}
+
+	void ResetPosition(){
+		
+		if (onGameStateChanged != null) {
+
+			onGameStateChanged (GameState.NOT_STARTED);
+
+		}
+
+	}
+
 }
