@@ -37,7 +37,6 @@ public class PlayerInputController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
 	
 	}
 
@@ -52,7 +51,6 @@ public class PlayerInputController : MonoBehaviour {
 
 		case GameManager.GameState.NOT_STARTED:
 
-			transform.position = Vector3.zero;
 
 			break;
 
