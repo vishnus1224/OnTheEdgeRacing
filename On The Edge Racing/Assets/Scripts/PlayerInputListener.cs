@@ -63,6 +63,11 @@ public class PlayerInputListener : MonoBehaviour
 			MoveRight ();
 
 			break;
+		case PlayerInputController.PlayerState.CRASHED:
+			//reset the position of the car.
+			transform.position = Vector3.zero;
+
+			break;
 		}
 
 	}
@@ -123,6 +128,9 @@ public class PlayerInputListener : MonoBehaviour
 		case PlayerInputController.PlayerState.MOVE_RIGHT:
 
 			break;
+		case PlayerInputController.PlayerState.CRASHED:
+
+			break;
 
 		}
 
@@ -149,6 +157,9 @@ public class PlayerInputListener : MonoBehaviour
 		case PlayerInputController.PlayerState.MOVE_RIGHT:
 
 			carSpeed = carSpeed > 0f ? carSpeed : carSpeed * -1f;
+
+			break;
+		case PlayerInputController.PlayerState.CRASHED:
 
 			break;
 		}
