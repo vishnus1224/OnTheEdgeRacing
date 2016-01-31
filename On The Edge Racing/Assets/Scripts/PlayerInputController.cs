@@ -7,7 +7,7 @@ using System.Collections;
 public class PlayerInputController : MonoBehaviour {
 
 	public enum PlayerState{
-		IDLE, MOVE_LEFT, MOVE_RIGHT
+		IDLE, MOVE_LEFT, MOVE_RIGHT, CRASHED
 	}
 
 	private GameManager.GameState currentGameState = GameManager.GameState.NOT_STARTED;
@@ -52,6 +52,8 @@ public class PlayerInputController : MonoBehaviour {
 
 		case GameManager.GameState.NOT_STARTED:
 
+			transform.position = Vector3.zero;
+
 			break;
 
 		case GameManager.GameState.RUNNING:
@@ -71,6 +73,11 @@ public class PlayerInputController : MonoBehaviour {
 			break;
 
 		case GameManager.GameState.GAME_OVER:
+
+			if (OnPlayerStateChanged != null) {
+
+				OnPlayerStateChanged (PlayerState.CRASHED);
+			}
 
 			break;
 
@@ -117,14 +124,12 @@ public class PlayerInputController : MonoBehaviour {
 
 		if(xAcceleration < 0 && Mathf.Abs(xAcceleration) > MIN_ACCELERATION && OnPlayerStateChanged != null){
 
-
-			Debug.Log(xAcceleration);
 			OnPlayerStateChanged(PlayerState.MOVE_LEFT);
 
 		}else if(xAcceleration > 0 && Mathf.Abs(xAcceleration) > MIN_ACCELERATION && OnPlayerStateChanged != null){
-			Debug.Log(xAcceleration);
 
 			OnPlayerStateChanged(PlayerState.MOVE_RIGHT);
+
 		}else {
 
 			if(OnPlayerStateChanged != null){
@@ -137,4 +142,6 @@ public class PlayerInputController : MonoBehaviour {
 
 		#endif
 	}
+
+
 }
