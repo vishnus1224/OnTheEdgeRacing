@@ -16,6 +16,10 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+		//if running on android then start game in 2 seconds.
+		#if UNITY_ANDROID
+		Invoke("StartGame", 2f);
+		#endif
 	}
 	
 	// Update is called once per frame
