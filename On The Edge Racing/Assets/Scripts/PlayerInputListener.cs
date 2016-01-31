@@ -6,6 +6,8 @@ public class PlayerInputListener : MonoBehaviour
 	//the current state of the player.
 	private PlayerInputController.PlayerState currentPlayerState;
 
+	public float carSpeed = 5f;
+
 	void OnEnable(){
 
 		//subscribe to the player state changed event from the player input controller.
@@ -39,6 +41,10 @@ public class PlayerInputListener : MonoBehaviour
 
 	}
 
+	void ChangeCurrentState(PlayerInputController.PlayerState newState){
+		currentPlayerState = newState;
+	}
+
 	//Perform necessary steps for each state that the player is in.
 	void HandleState(){
 
@@ -48,13 +54,35 @@ public class PlayerInputListener : MonoBehaviour
 
 			break;
 		case PlayerInputController.PlayerState.MOVE_LEFT:
-			Debug.Log ("Moving Left");
+			
+			MoveLeft ();
+
 			break;
 		case PlayerInputController.PlayerState.MOVE_RIGHT:
-			Debug.Log ("Moving Right");
+
+			MoveRight ();
+
 			break;
 		}
 
+	}
+
+	//move the player to the left.
+	void MoveLeft(){
+
+		Vector3 pos = transform.position;
+		pos.x += carSpeed * Time.deltaTime;
+		transform.position = pos;
+
+	}
+
+
+	//move the player to the right.
+	void MoveRight(){
+
+		Vector3 pos = transform.position;
+		pos.x += carSpeed * Time.deltaTime;
+		transform.position = pos;
 	}
 
 	void OnPlayerStateChanged(PlayerInputController.PlayerState newState){
@@ -65,17 +93,20 @@ public class PlayerInputListener : MonoBehaviour
 		}
 
 		//if the player cannot go from the current state to the new state then return.
-		if (!checkForValidStateTransition (newState)) {
+		if (!CheckForValidStateTransition (newState)) {
 			return;
 		}
 
-		currentPlayerState = newState;
+		//make any changes related to a particular state.
+		PlayerWillChangeState(newState);
+
+		ChangeCurrentState(newState);
 		
 	}
 
 	//check if the player can transition to the new state from the current state.
 	//Currently the player can go from one state to another. Might need this function when more states are added.
-	bool checkForValidStateTransition(PlayerInputController.PlayerState newState){
+	bool CheckForValidStateTransition(PlayerInputController.PlayerState newState){
 
 		bool returnValue = true;
 
@@ -97,6 +128,30 @@ public class PlayerInputListener : MonoBehaviour
 
 		return returnValue;
 
+	}
+
+	//make changes that are related to any state. 
+	void PlayerWillChangeState(PlayerInputController.PlayerState newState){
+	
+	
+		switch (newState) {
+
+		case PlayerInputController.PlayerState.IDLE:
+			break;
+
+		case PlayerInputController.PlayerState.MOVE_LEFT:
+
+			//if car speed is not negative, then multiply it by -1;
+			carSpeed = carSpeed < 0f ? carSpeed : carSpeed * -1f;
+
+			break;
+
+		case PlayerInputController.PlayerState.MOVE_RIGHT:
+
+			carSpeed = carSpeed > 0f ? carSpeed : carSpeed * -1f;
+
+			break;
+		}
 	}
 
 
