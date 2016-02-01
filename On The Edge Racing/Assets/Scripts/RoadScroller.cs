@@ -17,6 +17,8 @@ public class RoadScroller : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		//TODO - Change scroll speed based on player score.
+
 		meshRenderer.material.mainTextureOffset = new Vector2 (0, Time.time * speed);
 
 	}
