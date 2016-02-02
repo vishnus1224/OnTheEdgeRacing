@@ -17,5 +17,10 @@ public class PlayerCollisionDetector : MonoBehaviour {
 				OnPlayerCollided ();
 			}
 		}
+
+		if (other.gameObject.tag.Equals ("Block")) {
+
+			Debug.Log ("Block");
+		}
 	}
 }
