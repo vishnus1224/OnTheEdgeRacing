@@ -9,7 +9,7 @@ public class PlayerCollisionDetector : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other){
 
-		if (other.gameObject.tag.Equals ("Edge")) {
+		if (other.CompareTag("Edge")) {
 
 			if (OnPlayerCollided != null) {
 				
@@ -18,7 +18,7 @@ public class PlayerCollisionDetector : MonoBehaviour {
 			}
 		}
 
-		if (other.gameObject.tag.Equals ("Block")) {
+		if (other.CompareTag("Block")) {
 
 			Debug.Log ("Block");
 		}
