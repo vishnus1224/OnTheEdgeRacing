@@ -5,19 +5,10 @@ public class MoveObstacle : MonoBehaviour {
 
 	private int movementSpeed = 4;
 
-	private Rigidbody2D blockRigidbody2D;
+	void LateUpdate(){
 
-	// Use this for initialization
-	void Start () {
-
-		//get the rigidbody component.
-		blockRigidbody2D = GetComponent<Rigidbody2D> ();
-
-	}
-
-	void FixedUpdate(){
-
-		//move the obstacle downwards.
-		blockRigidbody2D.velocity = Vector2.down * movementSpeed;
+		Vector3 position = transform.position;
+		position.y -= movementSpeed * Time.deltaTime;
+		transform.position = position;
 	}
 }
