@@ -9,18 +9,24 @@ public class PlayerCollisionDetector : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other){
 
-		if (other.CompareTag("Edge")) {
+		if (other.CompareTag ("Edge")) {
 
 			if (OnPlayerCollided != null) {
 				
 				//broadcast that the player has collided.
 				OnPlayerCollided ();
 			}
-		}
+		} else if (other.CompareTag ("Block")) {
 
-		if (other.CompareTag("Block")) {
+			if (OnPlayerCollided != null) {
 
-			Debug.Log ("Block");
+				//broadcast that the player has collided.
+				OnPlayerCollided ();
+			}
+		} else if (other.CompareTag ("Score Line")) {
+
+			Debug.Log("Scored");
+
 		}
 	}
 }
