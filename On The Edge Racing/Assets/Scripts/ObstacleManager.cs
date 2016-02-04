@@ -10,7 +10,7 @@ public class ObstacleManager : MonoBehaviour {
 	//the time that has elapsed since the last obstacle was spawned.
 	private float accumulatedSpawnTime;
 
-	private float obstacleSpawnDelay = 2f;
+	private float obstacleSpawnDelay = 3f;
 
 	void OnEnable(){
 
