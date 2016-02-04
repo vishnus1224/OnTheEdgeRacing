@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour {
 		if (onGameStateChanged != null) {
 			
 			onGameStateChanged (GameState.RUNNING);
+			Time.timeScale = 1f;
 		}
 
 	}
@@ -62,6 +63,7 @@ public class GameManager : MonoBehaviour {
 		if (onGameStateChanged != null) {
 		
 			onGameStateChanged (GameState.PAUSED);
+			Time.timeScale = 0f;
 		}
 
 	}
